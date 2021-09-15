@@ -25,6 +25,15 @@ def binary_search(mylist, key):
 	return _binary_search(mylist, key, 0, len(mylist)-1)
 
 def _binary_search(mylist, key, left, right):
+	if left > right:
+		return -1
+	mid = (left + right) // 2
+	if mylist[mid] == key:
+		return mid
+	elif mylist[mid] < key:
+		return _binary_search(mylist, key, mid + 1, right)
+	elif mylist[mid] > key: 
+		return _binary_search(mylist, key, left, mid - 1)
 	"""
 	Recursive implementation of binary search.
 
@@ -44,11 +53,18 @@ def test_binary_search():
 	assert binary_search([1,2,3,4,5], 5) == 4
 	assert binary_search([1,2,3,4,5], 1) == 0
 	assert binary_search([1,2,3,4,5], 6) == -1
+	assert binary_search([2,3,4,10,40], 10) == 3
+	assert binary_search([2,3,4,10,40], 4) == 2
 	### TODO: add two more tests here.
 	pass
 
 
 def time_search(search_fn, mylist, key):
+	time1 = time.time() 
+	search_fn(mylist, key)
+	time2 = time.time() 
+	
+	return (time2 - time1) * 1000
 	"""
 	Return the number of milliseconds to run this
 	search function on this list.
@@ -70,6 +86,14 @@ def time_search(search_fn, mylist, key):
 	pass
 
 def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
+	listThing = []
+	for i in sizes: 
+		x = range(int(i))
+		bsTime = time_search(binary_search, x, -1)
+		lsTime = time_search(linear_search, x, -1)
+		tup = (i, lsTime, bsTime)
+		listThing.append(tup)
+	return listThing
 	"""
 	Compare the running time of linear_search and binary_search
 	for input sizes as given. The key for each search should be
@@ -101,3 +125,10 @@ def test_compare_search():
 	assert res[1][0] == 100
 	assert res[0][1] < 1
 	assert res[1][1] < 1
+
+
+#test_linear_search()
+#test_binary_search()
+
+#print(time_search(binary_search, range(int(1e7)), -1))
+#print(time_search(linear_search, range(int(1e7)), -1))
