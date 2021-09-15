@@ -129,6 +129,6 @@ def test_compare_search():
 
 #test_linear_search()
 #test_binary_search()
-print_results(compare_search())
+
 #print(time_search(binary_search, range(int(1e7)), -1))
 #print(time_search(linear_search, range(int(1e7)), -1))
